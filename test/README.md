@@ -1,0 +1,278 @@
+# test list
+
+## L2/PheasantNetworkBridgeChild
+- deployment
+  - relayers : _newOwner should be set as relayer
+  - relayerOpenedForThirdParty should be 0 right after deployment
+- setup function (test for helper.sol)
+  - setUpTrade
+  - setUpBalance
+  - setUpBond
+  - setUpIsUniqueHashedEvidence
+- newTrade function
+  - newTrade
+  - newTrade over tradeThreshold
+  - newTrade below tradeThreshold
+  - newTrade invalid tokeyTypeIndex
+- bid
+  - bid
+  - bid fail if sstatus is other than STATUS_START
+  - bulkBid
+  - bulkBid invalid status
+  - bulkBid fail if bond will unlock within 2 hours
+  - buikBid fail if bond is insufficient amount
+  - bulkBid fail if called by other than the relayer
+  - cancelTrade can't cancel after bidding
+- withdraw
+  - withdraw
+  - withdraw invalid transaction
+  - withdraw invalid status
+  - withdraw invalid relayer
+  - withdraw not unique evidence
+  - bulkWithdraw
+  - bulkWithdraw invalid status
+  - buldwithdraw not unique evidences
+  - buldwithdraw fail if bond will unlock within 2 hours
+  - buldwithdraw fail if bond is insufficient amount
+  - buldwithdraw fail if called by other than the relayer
+  - cancelTrade
+- getTrade
+  - getTrade No Trade Error
+  - getTrades
+  - getUserTradeListByIndex
+  - getUserTradeListByIndex out of bounds
+- dispute
+  - dispute
+  - dispute downward invalid status
+  - dispute downward after bidding
+  - dispute after bidding too early
+  - dispute upward too early
+  - dispute upward invalid status
+  - dispute upward
+- slash
+  - slash
+  - slash, invalid status
+  - slash, different evidence
+  - slash, submitted evidence is correct. no slash
+- bond
+  - depositBond
+  - depositBond : should set msg.sender as relayer
+  - depositBond : should be revert when relayer does not opened third party
+  - withdrawBond
+  - withdrawBond : should remove msg.sender as relayer
+  - withdrawBond : unable to withdrawBond before expire
+  - extendBondLockPeriod
+  - extendBondLockPeriod if extend within BOND_LIMITED_PERIOD
+  - getRequiredBondAmount
+- asset
+  - depositAsset
+  - withdrawAsset
+- createUpwardTrade
+  - createUpwardTrade
+  - createUpwardTrade tx is expired
+  - createUpwardTrade over threshold
+  - createUpwardTrade below threshold
+  - createUpwardTrade not unique txhash
+- accept
+  - accept
+  - accept invalid status
+  - accept invalid relayer
+  - accept relayer' asset is too low
+  - accept using bond
+  - bulkAccept
+  - bulkAccept invalid status
+  - bulkAccept invalid relayer
+  - bulkAccept fail if called by other than the relayer
+  - bulkAccept relayer' asset is too low
+  - bulkAccept using bond
+- contract related function
+  - getTokenAddress
+  - toggleContractActive
+  - getTradeThreshold
+  - getDisputablePeriod
+  - getTradeMinimumAmount
+  - setTradeMinimumAmount
+- dispute-manager function
+  - isValidEvidence
+  - checkEvidenceExceptBlockHash
+  - checkEvidenceExceptBlockHash some validation is false
+  - checkEvidenceExceptBlockHash upward trade
+  - checkEvidenceExceptBlockHash downward trade
+- Relayer Fee Setting
+  - getRelayerSetting
+  - setNextFeeSetting
+  - setNextFeeSetting update current
+  - setNextFeeSetting update only next
+  - setNextFeeSetting current
+  - getRelayerFee next
+  - getRelayerFee current
+  - getRelayerFee notInitialized
+  - isValidRelayerFee notInitialized
+  - isValidRelayerFee current
+  - isValidRelayerFee current ng
+  - isValidRelayerFee next
+  - isValidRelayerFee next ng
+  - isValidRelayerFee all
+  - isValidRelayerFee all ng
+- relayer openess setting
+  - makeRelayerOpen : should fail called by any account other than the owner
+  - makeRelayerOpen : should open
+  - makeRelayerClose : should fail called by any account other than the owner
+  - makeRelayerClose : should open
+
+## BridgeDisputeManager
+- verifyBlockHeader
+- verifyBlockHeader false
+- bufferToNibble
+- verifyProof
+- verifyProof wrong root
+- verifyProof invalid proof
+- verifyProof invalid path
+- verifyTxSignature
+- verifyTxSignature false
+- verifyBlockHash
+- verifyBlockHash blockhash not match
+- verifyBlockHash not set
+- verifyRawTx
+- verifyRawTx false
+- checkTransferTx
+- checkTransferTx, invalid to
+- checkTransferTx, invalid amount
+
+## RLPDecoder
+- first byte < 0x7f, return byte itself
+- first byte < 0xb7, data is everything except first byte
+- first byte == 0x80, data is null
+- strings over 55 bytes long
+- a list
+- a list  over 55 bytes long
+- decode a long list using actual data
+
+##　PheasantNetworkBridgeChild
+deployment
+  - relayers : _newOwner should be set as relayer
+  - relayerOpenedForThirdParty should be 0 right after deployment
+setup function
+  - setUpTrade
+  - setUpBalance
+  - setUpBond
+  - setUpIsUniqueHashedEvidence
+newTrade function
+  - newTrade
+  - newTrade over tradeThreshold
+  - newTrade ,contract isn't active
+  - newTrade below tradeThreshold
+  - newTrade invalid tokeyTypeIndex
+bid
+  - bid
+  - bid Can't re-bid
+  - bulkBid
+  - bulkBid invalid status
+  - bulkBid fail if bond will unlock within 2 hours
+  - buikBid fail if bond is insufficient amount
+  - bulkBid fail if called by other than the relayer
+  - cancelTrade can't cancel after bidding
+withdraw
+  - withdraw
+  - withdraw invalid transaction
+  - withdraw invalid status
+  - withdraw invalid relayer
+  - withdraw not unique evidence
+  - bulkWithdraw
+  - bulkWithdraw invalid status
+  - buldwithdraw not unique evidences
+  - buldwithdraw fail if bond will unlock within 2 hours
+  - buldwithdraw fail if bond is insufficient amount
+  - buldwithdraw fail if called by other than the relayer
+  - cancelTrade
+getTrade
+  - getTrade No Trade Error
+  - getTrades
+  - getTradeList
+  - getUserTradeList
+  - getUserTradeListByIndex
+  - getUserTradeListByIndex out of bounds
+dispute
+  - dispute
+  - dispute invalid status
+  - dispute after bidding
+  - dispute after bidding too early
+  - dispute upward too early
+  - dispute upward invalid status
+  - dispute upward
+slash
+  - slash
+  - slash, invalid status
+  - slash, different evidence
+  - slash, submitted evidence is correct. no slash
+bond
+  - depositBond
+  - depositBond : should set msg.sender as relayer
+  - depositBond : should be revert when relayer does not opened third party
+  - withdrawBond
+  - withdrawBond : should remove msg.sender as relayer
+  - unable to withdrawBond before expire
+  - extendBondLockPeriod
+  - extendBondLockPeriod if extend within BOND_LIMITED_PERIOD
+  - getRequiredBondAmount
+asset
+  - depositAsset
+  - withdrawAsset
+createUpwardTrade
+  - createUpwardTrade
+  - createUpwardTrade tx is expired
+  - createUpwardTrade over threshold
+  - createUpwardTrade below threshold
+  - createUpwardTrade not unique txhash
+accept
+  - accept
+  - accept invalid status
+  - accept invalid relayer
+  - bulkAccept fail if called by other than the relayer
+  - accept relayer' asset is too low
+  - accept using bond
+  - bulkAccept
+  - bulkAccept invalid status
+  - bulkAccept invalid relayer
+  - bulkAccept relayer' asset is too low
+  - bulkAccept using bond
+contract related function
+  - getRelayer
+  - getRelayer contract isn't active
+  - isRelayer
+  - isRelayer invalid relayer
+  - getTokenAddress L2
+  - getTokenAddress L1
+  - toggleContractActive
+  - getTradeThreshold
+  - setTradeThreshold
+  - getDisputablePeriod
+  - getTradeMinimumAmount
+  - setTradeMinimumAmount
+dispute-manager function
+  - isValidEvidence
+  - checkEvidenceExceptBlockHash
+  - checkEvidenceExceptBlockHash some validation is false
+  - checkEvidenceExceptBlockHash upward trade
+  - checkEvidenceExceptBlockHash downward trade
+Relayer Fee Setting
+  - getRelayerSetting
+  - setNextFeeSetting
+  - setNextFeeSetting update current
+  - setNextFeeSetting update only next
+  - setNextFeeSetting current
+  - getRelayerFee next
+  - getRelayerFee current
+  - getRelayerFee notInitialized
+  - isValidRelayerFee notInitialized
+  - isValidRelayerFee current
+  - isValidRelayerFee current ng
+  - isValidRelayerFee next
+  - isValidRelayerFee next ng
+  - isValidRelayerFee all
+  - isValidRelayerFee all ng
+relayer openess setting
+  - makeRelayerOpen : should fail called by any account other than the owner
+  - makeRelayerOpen : should open
+  - makeRelayerClose : should fail called by any account other than the owner
+  - makeRelayerClose : should open

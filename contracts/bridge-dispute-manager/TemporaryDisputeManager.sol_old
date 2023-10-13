@@ -1,0 +1,165 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.18;
+import {SolRLPDecoder} from "./utils/SolRLPDecoder.sol";
+import "hardhat/console.sol";
+
+contract TemporaryDisputeManager {
+    bytes constant TX_TYPE2 = hex"02";
+    uint constant ACCESSLIST = 8;
+    uint256 constant TRANSACTION_TO_INDEX = 5;
+    uint256 constant TRANSACTION_VALUE_INDEX = 6;
+
+    function verifyBlockHeader(bytes32 blockHash, bytes[] calldata blockHeaderRaw) external pure returns (bool){
+        return true;
+    }
+
+    function composeTx(bytes[] memory item) public pure returns(bytes memory){
+        bytes memory encodedTx = rlpEncode(item, true);
+        return bytes.concat(TX_TYPE2, encodedTx);
+    }
+
+    function encodeBytes(bytes memory self) internal pure returns (bytes memory) {
+        bytes memory encoded;
+        if (self.length == 1 && uint8(self[0]) <= 128) {
+            encoded = self;
+        } else {
+            encoded = bytes.concat(encodeLength(self.length, 128), self);
+        }
+        return encoded;
+    }
+
+
+    function encodeLength(uint len, uint offset) internal pure returns (bytes memory) {
+        bytes memory encoded;
+        if (len < 56) {
+            encoded = new bytes(1);
+            encoded[0] = bytes32(len + offset)[31];
+        } else {
+            uint lenLen;
+            uint i = 1;
+            while (len / i != 0) {
+                lenLen++;
+                i *= 256;
+            }
+
+            encoded = new bytes(lenLen + 1);
+            encoded[0] = bytes32(lenLen + offset + 55)[31];
+            for(i = 1; i <= lenLen; i++) {
+                encoded[i] = bytes32((len / (256**(lenLen-i))) % 256)[31];
+            }
+        }
+        return encoded;
+    }
+
+
+    function rlpEncode(bytes[] memory item, bool isTxEncode) public pure returns(bytes memory){
+        uint length = item.length;
+        bytes memory result;
+        for(uint i = 0; i < length ;i++) {
+            if(i == ACCESSLIST && isTxEncode) {
+                result = bytes.concat(result, hex"c0"); //empty accessList
+            } else {
+                result = bytes.concat(result, encodeBytes(item[i]));
+            }
+        }
+        bytes memory prefix = encodeLength(result.length, 192);
+        return bytes.concat(prefix, result);
+    }
+
+
+    function verifyProof(
+        bytes32 txHash,
+        bytes[] memory proof,
+        bytes memory bytesRoot,
+        uint8[] memory path
+    ) external pure returns (bool) {
+        return true;
+    }
+
+    function verifyRawTx(bytes memory transaction, bytes[] calldata txRaw) external pure returns (bool) {
+        return true;
+    }
+
+    function verifyBlockHash(bytes32 _blockHash, uint256 _blockNumber) external view returns (bool) {
+        return true;
+    }
+
+    function checkTransferTx(
+        bytes calldata transaction,
+        address recipient,
+        uint256 amount,
+        uint256 networkCode
+    ) external view returns (bool) {
+        return true;
+    }
+
+    function recoverAddress(bytes[] calldata txRaw) public pure returns(address) {
+
+        uint length = txRaw.length - 3;
+        bytes[] memory unsignedRawTx = new bytes[](length);
+        for(uint i = 0; i < length; i++) {
+            unsignedRawTx[i] = txRaw[i];
+        }
+        bytes memory composedUnsignedTx = composeTx(unsignedRawTx);
+        bytes32 message = keccak256(composedUnsignedTx);
+
+        bytes32 r;
+        bytes memory tmpR = txRaw[10];
+        assembly {
+          r := mload(add(tmpR, 32))
+        }
+
+        bytes32 s;
+        bytes memory tmpS = txRaw[11];
+        assembly {
+          s := mload(add(tmpS, 32))
+        }
+
+        uint8 v = 0;
+        if(keccak256(txRaw[9]) == keccak256(hex"01")) {
+            v = 28;
+        } else {
+            v = 27;
+        }
+
+        return ecrecover(message, v, r, s);
+    }
+
+    function decodeToAndValueFromTxData(
+        bytes calldata transaction
+    ) public pure returns (address, uint256) {
+        bytes[] memory decodedTx = decodeNode(transaction[1:]);
+        bytes memory value = decodedTx[TRANSACTION_VALUE_INDEX];
+        bytes memory to = decodedTx[TRANSACTION_TO_INDEX];
+        bytes memory prefix = new bytes(32 - value.length);
+        return (toAddress(to, 0), toUint256(bytes.concat(prefix, value), 0));
+    }
+
+    function toUint256(bytes memory _bytes, uint256 _start) internal pure returns (uint256) {
+        require(_bytes.length >= _start + 32, "toUint256_outOfBounds");
+        uint256 tempUint;
+
+        assembly {
+            tempUint := mload(add(add(_bytes, 0x20), _start))
+        }
+
+        return tempUint;
+    }
+
+    function toAddress(bytes memory _bytes, uint256 _start) internal pure returns (address) {
+        require(_bytes.length >= _start + 20, "toAddress_outOfBounds");
+        address tempAddress;
+
+        assembly {
+            tempAddress := div(mload(add(add(_bytes, 0x20), _start)), 0x1000000000000000000000000)
+        }
+
+        return tempAddress;
+    }
+
+    function decodeNode(bytes memory item) public pure returns (bytes[] memory ){
+        return SolRLPDecoder.decode(item);
+    }
+
+
+}

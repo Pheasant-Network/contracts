@@ -1,0 +1,9 @@
+{
+  "0": {
+      "high" : 1001,
+      "medium" : 1001,
+      "low" : 1001,
+      "gasPriceThresholdHigh" : 0,
+      "gasPriceThresholdLow" : 0
+  }
+}

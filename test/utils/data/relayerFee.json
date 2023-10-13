@@ -1,0 +1,16 @@
+{
+  "0": {
+        "high" : 1000,
+        "medium" : 1000,
+        "low" : 1000,
+        "gasPriceThresholdHigh" : 0,
+        "gasPriceThresholdLow" : 0
+  },
+  "1": {
+      "high" : 1001,
+      "medium" : 1001,
+      "low" : 1001,
+      "gasPriceThresholdHigh" : 0,
+      "gasPriceThresholdLow" : 0
+  }
+}

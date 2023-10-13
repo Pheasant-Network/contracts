@@ -1,0 +1,89 @@
+{
+  "localhost": {
+    "PheasantNetworkBridgeChild": "",
+    "PolygonChildCheckpointManager": "",
+    "TestToken": ""
+  },
+  "mainnet": {
+    "PolygonRootCheckpointManager": ""
+  },
+  "goerli": {
+    "PolygonRootCheckpointManager": "",
+    "OptimismRootCheckpointManager": "",
+    "ZkSyncRootCheckpointManager": "",
+    "ArbitrumRootCheckpointManager": "",
+    "DiamondInit": "",
+    "DiamondCutFaucet": "",
+    "DiamondLoupeFacet": "",
+    "OwnershipFacet": "",
+    "Diamond": ""
+  },
+  "mumbai": {
+    "PolygonChildCheckpointManager": "",
+    "WETH": "",
+    "TestToken": "",
+    "PheasantNetworkBridgeChild": "",
+    "BridgeDisputeManager": "",
+    "BondManager": ""
+  },
+  "polygon": {
+    "WETH": "",
+    "PolygonChildCheckpointManager": "",
+    "PheasantNetworkBridgeChild": "",
+    "BondManager": ""
+  },
+  "optimismGoerli": {
+    "OptimismChildCheckpointManager": "",
+    "PheasantNetworkBridgeChild": "",
+    "BridgeDisputeManager": "",
+    "BondManager": ""
+  },
+  "optimism": {
+    "OptimismChildCheckpointManager": "",
+    "PheasantNetworkBridgeChild": "",
+    "BondManager": ""
+  },
+  "arbitrumGoerli": {
+    "ArbitrumChildCheckpointManager": "",
+    "PheasantNetworkBridgeChild": "",
+    "BridgeDisputeManager": "",
+    "BondManager": ""
+  },
+  "arbitrum": {
+    "ArbitrumChildCheckpointManager": "",
+    "PheasantNetworkBridgeChild": "",
+    "BondManager": ""
+  },
+  "scrollTestnet": {
+    "PheasantNetworkBridgeChild": "",
+    "BridgeDisputeManager": "",
+    "BondManager": ""
+  },
+  "zkSyncTestnet": {
+    "ZkSyncChildCheckpointManager": "",
+    "PheasantNetworkBridgeChild": "",
+    "BridgeDisputeManager": "",
+    "SolRLPDecoder": "",
+    "BondManager": ""
+  },
+  "baseGoerli": {
+    "PheasantNetworkBridgeChild": "",
+    "BridgeDisputeManager": "",
+    "BondManager": ""
+  },
+  "polygonZkEvmGoerli": {
+    "PheasantNetworkBridgeChild": "",
+    "BridgeDisputeManager": "",
+    "BondManager": ""
+  },
+  "lineaGoerli": {
+    "PheasantNetworkBridgeChild": "",
+    "BridgeDisputeManager": "",
+    "BondManager": ""
+  },
+  "taikoTestnet": {
+    "PheasantNetworkBridgeChild": "",
+    "BridgeDisputeManager": "",
+    "BondManager": ""
+  }
+}
