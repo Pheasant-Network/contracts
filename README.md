@@ -63,3 +63,6 @@ npx hardhat run scripts/managerSetting.js --network zkSyncTestnet
   - BondManager
 
 Don't forget to withdraw asset from BondManager contract before you deploy a new contract.
+
+## License
+Pheasant Network is distributed under the [MIT license](https://github.com/Pheasant-Network/contracts/blob/main/LICENSE).
